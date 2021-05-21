@@ -14,6 +14,7 @@
 		18A244E2244C7920005BC26B /* CustomCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A244E1244C7920005BC26B /* CustomCameraController.swift */; };
 		18A244E4244C7931005BC26B /* PhotoPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A244E3244C7931005BC26B /* PhotoPreviewView.swift */; };
 		18A244E6244C798E005BC26B /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A244E5244C798E005BC26B /* UIView+Extension.swift */; };
+		247B72802657F21C00C710F7 /* ScannerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247B727F2657F21C00C710F7 /* ScannerOverlay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		18A244E1244C7920005BC26B /* CustomCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraController.swift; sourceTree = "<group>"; };
 		18A244E3244C7931005BC26B /* PhotoPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreviewView.swift; sourceTree = "<group>"; };
 		18A244E5244C798E005BC26B /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		247B727F2657F21C00C710F7 /* ScannerOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerOverlay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				18A244E1244C7920005BC26B /* CustomCameraController.swift */,
 				18A244E3244C7931005BC26B /* PhotoPreviewView.swift */,
 				18A244E5244C798E005BC26B /* UIView+Extension.swift */,
+				247B727F2657F21C00C710F7 /* ScannerOverlay.swift */,
 			);
 			path = PhotoCapture;
 			sourceTree = "<group>";
@@ -141,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18A244E4244C7931005BC26B /* PhotoPreviewView.swift in Sources */,
+				247B72802657F21C00C710F7 /* ScannerOverlay.swift in Sources */,
 				18A244E0244C7910005BC26B /* HomeController.swift in Sources */,
 				18A244CC244C789B005BC26B /* AppDelegate.swift in Sources */,
 				18A244E6244C798E005BC26B /* UIView+Extension.swift in Sources */,
@@ -281,14 +285,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8VX4A8AS7P;
 				INFOPLIST_FILE = PhotoCapture/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nissan.customer222.PhotoCapture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -300,14 +304,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8VX4A8AS7P;
 				INFOPLIST_FILE = PhotoCapture/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nissan.customer222.PhotoCapture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
