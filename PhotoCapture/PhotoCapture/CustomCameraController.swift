@@ -81,6 +81,8 @@ class CustomCameraController: UIViewController, AVCapturePhotoCaptureDelegate {
     }
     
     private func setupCaptureSession() {
+
+        
         let captureSession = AVCaptureSession()
         
         if let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) {
@@ -102,9 +104,23 @@ class CustomCameraController: UIViewController, AVCapturePhotoCaptureDelegate {
             cameraLayer.videoGravity = .resizeAspectFill
             self.view.layer.addSublayer(cameraLayer)
             
+            //Добавляем слой для камеры
+            let scannerOverlayPreviewLayer              = ScannerOverlayPreviewLayer(session: captureSession)
+            scannerOverlayPreviewLayer.frame            = self.view.bounds
+            scannerOverlayPreviewLayer.maskSize         = CGSize(width: 200, height: 200)
+            scannerOverlayPreviewLayer.videoGravity     = .resizeAspectFill
+            self.view.layer.addSublayer(scannerOverlayPreviewLayer)
+            
             captureSession.startRunning()
             self.setupUI()
         }
+        
+//        Добавляем слой для камеры
+//        let scannerOverlayPreviewLayer              = ScannerOverlayPreviewLayer(session: captureSession)
+//          scannerOverlayPreviewLayer.frame            = self.view.bounds
+//          scannerOverlayPreviewLayer.maskSize         = CGSize(width: 200, height: 200)
+//          scannerOverlayPreviewLayer.videoGravity     = .resizeAspectFill
+//          self.view.layer.addSublayer(scannerOverlayPreviewLayer)
     }
     
     @objc private func handleDismiss() {
