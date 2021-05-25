@@ -82,7 +82,7 @@ class CustomCameraController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     private func setupCaptureSession() {
 
-        
+    
         let captureSession = AVCaptureSession()
         
         if let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) {
@@ -99,10 +99,10 @@ class CustomCameraController: UIViewController, AVCapturePhotoCaptureDelegate {
                 captureSession.addOutput(photoOutput)
             }
             
-            let cameraLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-            cameraLayer.frame = self.view.frame
-            cameraLayer.videoGravity = .resizeAspectFill
-            self.view.layer.addSublayer(cameraLayer)
+//            let cameraLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+//            cameraLayer.frame = self.view.frame
+//            cameraLayer.videoGravity = .resizeAspectFill
+//            //self.view.layer.addSublayer(cameraLayer)
             
             //Добавляем слой для камеры
             let scannerOverlayPreviewLayer              = ScannerOverlayPreviewLayer(session: captureSession)
@@ -111,7 +111,36 @@ class CustomCameraController: UIViewController, AVCapturePhotoCaptureDelegate {
             scannerOverlayPreviewLayer.videoGravity     = .resizeAspectFill
             self.view.layer.addSublayer(scannerOverlayPreviewLayer)
             
+            //Указываем сканируемую область
+            let metadataOutput = AVCaptureMetadataOutput()
+            scannerOverlayPreviewLayer.metadataOutputRectConverted(fromLayerRect: scannerOverlayPreviewLayer.rectOfInterest)
+            captureSession.addOutput(metadataOutput)
+            captureSession.commitConfiguration()
+            
+//            let size = 300
+//            let screenWidth = self.view.frame.size.width
+//            let xPos = (CGFloat(screenWidth) / CGFloat(2)) - (CGFloat(size) / CGFloat(2))
+            //let scanRect = CGRect(x: Int(xPos), y: 150, width: size, height: size)
+            
+//            var x = scanRect.origin.x/480
+//            var y = scanRect.origin.y/640
+//            var width = scanRect.width/480
+//            var height = scanRect.height/640
+            //var scanRectTransformed = CGRect(x, y, width, height)
+            //var scanRectTransformed = CGRect(x: x, y: y, width: width, height: height)
+
+            //captureMetadataOutput.rectOfInterest = scanRectTransformed
+            
+//            captureSession.startRunning()
+            
             captureSession.startRunning()
+//            let scanRect = CGRect(x: 0, y: 0, width: 100, height: 100)
+//            let rectOfInterest = scannerOverlayPreviewLayer.metadataOutputRectConverted(fromLayerRect: scanRect)
+//            metadataOutput.rectOfInterest = rectOfInterest
+        
+            //metadataOutput.rectOfInterest = scannerOverlayPreviewLayer.metadataOutputRectConverted(fromLayerRect: scannerOverlayPreviewLayer.rectOfInterest)
+           // metadataOutput.rectOfInterest = scannerOverlayPreviewLayer.rectOfInterest
+            
             self.setupUI()
         }
         
@@ -139,10 +168,61 @@ class CustomCameraController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation() else { return }
-        let previewImage = UIImage(data: imageData)
+        
+        let size = 300
+        let screenWidth = self.view.frame.size.width
+        let xPos = (CGFloat(screenWidth) / CGFloat(2)) - (CGFloat(size) / CGFloat(2))
+        let outputRect = CGRect(x: Int(xPos), y: 150, width: size, height: size)
+        
+        let previewImage = UIImage(data: imageData)?.cropped(rect: outputRect)
         
         let photoPreviewContainer = PhotoPreviewView(frame: self.view.frame)
         photoPreviewContainer.photoImageView.image = previewImage
         self.view.addSubviews(photoPreviewContainer)
+    }
+    
+    private func cropToPreviewLayer(originalImage: UIImage) -> UIImage {
+        //let outputRect = previewLayer.metadataOutputRectConverted(fromLayerRect: previewLayer.bounds)
+        
+        let size = 300
+        let screenWidth = self.view.frame.size.width
+        let xPos = (CGFloat(screenWidth) / CGFloat(2)) - (CGFloat(size) / CGFloat(2))
+        let outputRect = CGRect(x: Int(xPos), y: 150, width: size, height: size)
+        
+        var cgImage = originalImage.cgImage!
+        let width = CGFloat(cgImage.width)
+        let height = CGFloat(cgImage.height)
+        let cropRect = CGRect(x: outputRect.origin.x * width, y: outputRect.origin.y * height, width: outputRect.size.width * width, height: outputRect.size.height * height)
+        
+        cgImage = cgImage.cropping(to: cropRect)!
+        let croppedUIImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: originalImage.imageOrientation)
+        
+        return croppedUIImage
+    }
+    
+    func cropImage1(image: UIImage, rect: CGRect) -> UIImage {
+        let cgImage = image.cgImage! // better to write "guard" in realm app
+        let croppedCGImage = cgImage.cropping(to: rect)
+        return UIImage(cgImage: croppedCGImage!)
+    }
+}
+
+//Расширение для обрезки
+extension UIImage {
+    func cropped(rect: CGRect) -> UIImage? {
+        guard let cgImage = cgImage else { return nil }
+
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
+        let context = UIGraphicsGetCurrentContext()
+
+        context?.translateBy(x: 0.0, y: self.size.height)
+        context?.scaleBy(x: 1.0, y: -1.0)
+        context?.draw(cgImage, in: CGRect(x: rect.minX, y: rect.minY, width: self.size.width, height: self.size.height), byTiling: false)
+
+
+        let croppedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return croppedImage
     }
 }
